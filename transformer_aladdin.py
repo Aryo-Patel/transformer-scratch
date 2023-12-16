@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+import numpy as np
 
 class SelfAttention(nn.Module):
     def __init__(self, embed_size, heads):
@@ -41,6 +42,12 @@ class SelfAttention(nn.Module):
 
         attention = torch.softmax(energy/(self.embed_size ** (0.5)), dim = 3) # rows in our attention matrix are softmaxed
 
+        print("mask present", mask)
+        print("attention", attention.shape)
+        print("values", values.shape)
+        #attention torch.Size([2, 8, 7, 9])
+        # values torch.Size([2, 9, 8, 32])
+        # [2, 7, 256] is invalid for input of size 4608
         out = torch.einsum("nhql,nlhd->nlhd", [attention, values]).reshape(
             N, query_len, self.heads * self.head_dim # concat heads together
         )
