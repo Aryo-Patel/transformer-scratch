@@ -57,6 +57,7 @@ class SelfAttention(nn.Module):
         return self.unifyheads(out)
 
     # At point of creating the transformer block
+    print("i need a commit")
 
 if __name__ == "__main__":
     inp = torch.rand((5, 12, 256))
